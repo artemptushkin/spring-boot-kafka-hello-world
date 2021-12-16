@@ -19,7 +19,7 @@ class TestConsumerService {
     }
 
     @KafkaListener(topicPartitions = [
-        TopicPartition(topic = "test", partitionOffsets = [
+        TopicPartition(topic = "test-double-partition", partitionOffsets = [
             PartitionOffset(partition = "0", initialOffset = "0")
         ])
     ], groupId = "partitioned-group")
@@ -28,11 +28,20 @@ class TestConsumerService {
     }
 
     @KafkaListener(topicPartitions = [
-        TopicPartition(topic = "test", partitionOffsets = [
+        TopicPartition(topic = "test-double-partition", partitionOffsets = [
             PartitionOffset(partition = "1", initialOffset = "0")
         ])
     ], groupId = "partitioned-group")
     fun listenFromBeginningSecondPartion(message: String) {
         println("[1] Receiving messages from the beginning: $message")
+    }
+
+    @KafkaListener(topicPartitions = [
+        TopicPartition(topic = "test-double-partition", partitionOffsets = [
+            PartitionOffset(partition = "1", initialOffset = "0")
+        ])
+    ], groupId = "partitioned-group")
+    fun listenFromBeginningWhenThereAreMoreConsumersThanPartitions(message: String) {
+        println("[2] I shouldn't receive this message: $message")
     }
 }

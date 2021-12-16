@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service
 @Service
 class TestProducerService(private val kafkaTemplate: KafkaTemplate<String, String>) {
 
-    fun sendTestMessage(message: String) {
+    fun sendTestMessage(message: String, topic: String) {
         kafkaTemplate.send(MessageBuilder.createMessage(message, MessageHeaders(
                 mapOf(
-                        "kafka_topic" to "test",
+                        "kafka_topic" to topic,
                         "test-header" to "test-header-value"
                 )
         )))
